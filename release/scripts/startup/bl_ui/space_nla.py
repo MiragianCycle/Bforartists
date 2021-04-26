@@ -49,6 +49,10 @@ class NLA_HT_header(Header):
         layout = self.layout
 
         st = context.space_data
+        scene = context.scene
+
+        preferences = context.preferences
+        addon_prefs = preferences.addons["bforartists_toolbar_settings"].preferences
 
         ALL_MT_editormenu.draw_hidden(context, layout) # bfa - show hide the editormenu
 
@@ -62,7 +66,31 @@ class NLA_HT_header(Header):
         row.operator("wm.switch_editor_to_driver", text="", icon='DRIVER')
         row.operator("wm.switch_editor_in_nla", text="", icon='NLA_ACTIVE')
 
-        ###########################
+        ########################### tweak strip actions
+
+        row = layout.row(align = True)
+
+        if addon_prefs.nla_tweak_isolate_action:
+
+            if scene.is_nla_tweakmode:
+                row.active_default = True
+                row.operator("nla.tweakmode_exit", text="Tweak", icon = "ACTION_TWEAK_SOLO").isolate_action = True
+                row.label(icon = "CHECKBOX_HLT", text = "Isolate")
+            else:
+                row.operator("nla.tweakmode_enter", text="Tweak", icon = "ACTION_TWEAK_SOLO").isolate_action = True
+                row.prop(addon_prefs, "nla_tweak_isolate_action")
+
+        else:
+
+            if scene.is_nla_tweakmode:
+                row.active_default = True
+                row.operator("nla.tweakmode_exit", text="Tweak", icon = "ACTION_TWEAK")
+                row.label(icon = "CHECKBOX_DEHLT", text = "Isolate")
+            else:
+                row.operator("nla.tweakmode_enter", text="Tweak", icon = "ACTION_TWEAK")
+                row.prop(addon_prefs, "nla_tweak_isolate_action")
+
+        ##########################
 
         NLA_MT_editor_menus.draw_collapsible(context, layout)
 
@@ -124,6 +152,7 @@ class NLA_MT_view(Menu):
 
         st = context.space_data
 
+        layout.prop(st, "show_region_channels") # bfa - channels
         layout.prop(st, "show_region_ui")
 
         layout.separator()
@@ -271,15 +300,6 @@ class NLA_MT_edit(Menu):
         layout.operator_menu_enum("anim.channels_move", "direction", text="Track Ordering")
         layout.operator("anim.channels_clean_empty", icon = "CLEAN_CHANNELS")
 
-        layout.separator()
-        # TODO: names of these tools for 'tweak-mode' need changing?
-        if scene.is_nla_tweakmode:
-            layout.operator("nla.tweakmode_exit", text="Stop Editing Stashed Action", icon = "ACTION_TWEAK").isolate_action = True
-            layout.operator("nla.tweakmode_exit", text="Stop Tweaking Strip Actions", icon = "ACTION_TWEAK")
-        else:
-            layout.operator("nla.tweakmode_enter", text="Start Editing Stashed Action", icon = "ACTION_TWEAK").isolate_action = True
-            layout.operator("nla.tweakmode_enter", text="Start Tweaking Strip Actions", icon = "ACTION_TWEAK")
-
 
 class NLA_MT_add(Menu):
     bl_label = "Add"
@@ -337,10 +357,10 @@ class NLA_MT_context_menu(Menu):
         scene = context.scene
 
         if scene.is_nla_tweakmode:
-            layout.operator("nla.tweakmode_exit", text="Stop Editing Stashed Action", icon = "ACTION_TWEAK").isolate_action = True
+            layout.operator("nla.tweakmode_exit", text="Stop Editing Stashed Action", icon = "ACTION_TWEAK_SOLO").isolate_action = True
             layout.operator("nla.tweakmode_exit", text="Stop Tweaking Strip Actions", icon = "ACTION_TWEAK")
         else:
-            layout.operator("nla.tweakmode_enter", text="Start Editing Stashed Action", icon = "ACTION_TWEAK").isolate_action = True
+            layout.operator("nla.tweakmode_enter", text="Start Editing Stashed Action", icon = "ACTION_TWEAK_SOLO").isolate_action = True
             layout.operator("nla.tweakmode_enter", text="Start Tweaking Strip Actions", icon = "ACTION_TWEAK")
 
         layout.separator()

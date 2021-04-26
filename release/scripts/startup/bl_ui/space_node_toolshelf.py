@@ -3546,6 +3546,10 @@ class NODES_PT_geom_add_geometry(bpy.types.Panel):
         if not addon_prefs.Node_text_or_icon:
 
             col = layout.column(align=True)
+            
+            props = col.operator("node.add_node", text=" Bounding Box     ", icon = "PIVOT_BOUNDBOX")
+            props.use_transform = True
+            props.type = "GeometryNodeBoundBox"
 
             props = col.operator("node.add_node", text=" Join                    ", icon = "JOIN")
             props.use_transform = True
@@ -3562,6 +3566,10 @@ class NODES_PT_geom_add_geometry(bpy.types.Panel):
 
             row = layout.row()
             row.alignment = 'LEFT'
+            
+            props = row.operator("node.add_node", text = "", icon = "PIVOT_BOUNDBOX")
+            props.use_transform = True
+            props.type = "GeometryNodeBoundBox"
 
             props = row.operator("node.add_node", text = "", icon = "JOIN")
             props.use_transform = True
@@ -3799,7 +3807,7 @@ class NODES_PT_geom_add_mesh_primitives(bpy.types.Panel):
 
             props = col.operator("node.add_node", text=" Grid                      ", icon = "MESH_GRID")
             props.use_transform = True
-            props.type = "GeometryNodeMeshPlane"
+            props.type = "GeometryNodeMeshGrid"
 
             props = col.operator("node.add_node", text=" UV Sphere                ", icon = "MESH_UVSPHERE")
             props.use_transform = True
@@ -3842,7 +3850,7 @@ class NODES_PT_geom_add_mesh_primitives(bpy.types.Panel):
 
             props = row.operator("node.add_node", text = "", icon = "MESH_GRID")
             props.use_transform = True
-            props.type = "GeometryNodeMeshPlane"
+            props.type = "GeometryNodeMeshGrid"
 
             props = row.operator("node.add_node", text = "", icon = "MESH_UVSPHERE")
             props.use_transform = True
@@ -4046,6 +4054,10 @@ class NODES_PT_geom_add_utilities(bpy.types.Panel):
             props = col.operator("node.add_node", text=" Math                 ", icon = "NODE_MATH")
             props.use_transform = True
             props.type = "ShaderNodeMath"
+            
+            props = col.operator("node.add_node", text=" Switch               ", icon = "SWITCH")
+            props.use_transform = True
+            props.type = "GeometryNodeSwitch"
 
         #### Icon Buttons
 
@@ -4073,6 +4085,10 @@ class NODES_PT_geom_add_utilities(bpy.types.Panel):
             props = row.operator("node.add_node", text = "", icon = "NODE_MATH")
             props.use_transform = True
             props.type = "ShaderNodeMath"
+            
+            props = row.operator("node.add_node", text = "", icon = "SWITCH")
+            props.use_transform = True
+            props.type = "GeometryNodeSwitch"
 
 
 #add vector panel

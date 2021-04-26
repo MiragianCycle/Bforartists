@@ -298,9 +298,9 @@ decorate_driver
 attribute_clamp
 attribute_maprange
 lock_to_camview_on
-#~ DEF_ICON_BLANK(317)
-#~ DEF_ICON_BLANK(318)
-#~ DEF_ICON_BLANK(319)
+action_tweak_solo
+transfer_sculpt
+switch
 #~ DEF_ICON_BLANK(320)
 #~ DEF_ICON_BLANK(321)
 #~ DEF_ICON_BLANK(322)

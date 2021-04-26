@@ -447,6 +447,7 @@ class DOPESHEET_MT_view(Menu):
 
         st = context.space_data
 
+        layout.prop(st, "show_region_channels") # bfa - channels
         layout.prop(st, "show_region_ui")
 
         layout.separator()
@@ -781,10 +782,8 @@ class DOPESHEET_MT_gpencil_channel(Menu):
         layout.operator("anim.channels_delete", icon="DELETE")
 
         layout.separator()
-
-        layout.operator("anim.channels_setting_toggle", icon="LOCKED")
-        layout.operator("anim.channels_setting_enable", icon="UNLOCKED")
-        layout.operator("anim.channels_setting_disable", icon="LOCKED")
+        #bfa - menu comes from space_graph.py
+        layout.menu("GRAPH_MT_channel_settings_toggle")
 
         layout.separator()
 
