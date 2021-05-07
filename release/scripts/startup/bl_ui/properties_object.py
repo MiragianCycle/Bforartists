@@ -200,10 +200,10 @@ class OBJECT_PT_collections(ObjectButtonsPanel, Panel):
 
         row = layout.row(align=True)
         if bpy.data.collections:
-            row.operator("object.collection_link", text="Add to Collection")
+            row.operator("object.collection_link", text="Link to existing Collection")
+            row.operator("object.collection_add", text="", icon='ADD')
         else:
-            row.operator("object.collection_add", text="Add to Collection")
-        row.operator("object.collection_add", text="", icon='ADD')
+            row.operator("object.collection_add", text="Add to New Collection")    
 
         obj_name = obj.name
         for collection in bpy.data.collections:
@@ -396,7 +396,9 @@ class OBJECT_PT_lineart(ObjectButtonsPanel, Panel):
 
         row = layout.row(heading="Override Crease")
         row.prop(lineart, "use_crease_override", text="")
-        row.prop(lineart, "crease_threshold", slider=True, text="")
+        subrow = row.row()
+        subrow.active = lineart.use_crease_override
+        subrow.prop(lineart, "crease_threshold", slider=True, text="")
 
 
 class OBJECT_PT_motion_paths(MotionPathButtonsPanel, Panel):
