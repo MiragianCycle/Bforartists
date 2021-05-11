@@ -376,6 +376,7 @@ class RENDER_PT_eevee_screen_space_reflections(RenderButtonsPanel, Panel):
 
         col.label(text="Specular:", text_ctxt="", translate=False, icon='NONE', icon_value=0)
 
+
         col.use_property_split = True
         col.prop(props, "ssr_quality")
         col.prop(props, "ssr_max_roughness")
