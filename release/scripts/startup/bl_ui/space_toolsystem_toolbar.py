@@ -1134,8 +1134,12 @@ class _defs_edit_mesh:
             layout.prop(props, "use_fill")
             layout.prop(props, "clear_inner")
             layout.prop(props, "clear_outer")
-            layout.use_property_split = True
-            layout.prop(props, "threshold")
+            split = layout.split(factor = 0.45)
+            row = split.row()
+            row.label(text = "Axis Threshold:")
+            row = split.row()
+            row.prop(props, "threshold", text = "")
+
         return dict(
             idname="builtin.bisect",
             label="Bisect",
@@ -2524,8 +2528,8 @@ class _defs_sequencer_select:
 class IMAGE_PT_tools_active(ToolSelectPanelHelper, Panel):
     bl_space_type = 'IMAGE_EDITOR'
     bl_region_type = 'TOOLS'
-    bl_label = "Tools"  # not visible
-    bl_options = {'HIDE_HEADER'}
+    bl_label = "Tools"
+    bl_category = "Tools"
 
     # Satisfy the 'ToolSelectPanelHelper' API.
     keymap_prefix = "Image Editor Tool:"
@@ -2615,8 +2619,8 @@ class IMAGE_PT_tools_active(ToolSelectPanelHelper, Panel):
 class NODE_PT_tools_active(ToolSelectPanelHelper, Panel):
     bl_space_type = 'NODE_EDITOR'
     bl_region_type = 'TOOLS'
-    bl_label = "Tools"  # not visible
-    bl_options = {'HIDE_HEADER'}
+    bl_label = "Tools"
+    bl_category = "Tools"
 
     # Satisfy the 'ToolSelectPanelHelper' API.
     keymap_prefix = "Node Editor Tool:"
@@ -2674,8 +2678,8 @@ class NODE_PT_tools_active(ToolSelectPanelHelper, Panel):
 class VIEW3D_PT_tools_active(ToolSelectPanelHelper, Panel):
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'TOOLS'
-    bl_label = "Tools"  # not visible
-    bl_options = {'HIDE_HEADER'}
+    bl_label = "Tools"
+    bl_category = "Tools"
 
     # Satisfy the 'ToolSelectPanelHelper' API.
     keymap_prefix = "3D View Tool:"
@@ -3039,8 +3043,8 @@ class VIEW3D_PT_tools_active(ToolSelectPanelHelper, Panel):
 class SEQUENCER_PT_tools_active(ToolSelectPanelHelper, Panel):
     bl_space_type = 'SEQUENCE_EDITOR'
     bl_region_type = 'TOOLS'
-    bl_label = "Tools"  # not visible
-    bl_options = {'HIDE_HEADER'}
+    bl_label = "Tools"
+    bl_category = "Tools"
 
     # Satisfy the 'ToolSelectPanelHelper' API.
     keymap_prefix = "Sequence Editor Tool:"

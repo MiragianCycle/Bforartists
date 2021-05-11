@@ -378,6 +378,7 @@ class RENDER_PT_eevee_screen_space_reflections(RenderButtonsPanel, Panel):
 
 
         col.use_property_split = True
+
         col.prop(props, "ssr_quality")
         col.prop(props, "ssr_max_roughness")
         col.prop(props, "ssr_thickness")

@@ -323,10 +323,6 @@ void EEVEE_reflection_output_init(EEVEE_ViewLayerData *UNUSED(sldata),
 {
   EEVEE_FramebufferList *fbl = vedata->fbl;
   EEVEE_TextureList *txl = vedata->txl;
-  EEVEE_StorageList *stl = vedata->stl;
-  EEVEE_EffectsInfo *effects = stl->effects;
-
-  const float clear[4] = {0.0f, 0.0f, 0.0f, 0.0f};
 
   /* Create FrameBuffer. */
   const eGPUTextureFormat texture_format = (tot_samples > 256) ? GPU_RGBA32F : GPU_RGBA16F;
@@ -334,12 +330,6 @@ void EEVEE_reflection_output_init(EEVEE_ViewLayerData *UNUSED(sldata),
 
   GPU_framebuffer_ensure_config(&fbl->ssr_accum_fb,
                                 {GPU_ATTACHMENT_NONE, GPU_ATTACHMENT_TEXTURE(txl->ssr_accum)});
-
-  /* Clear texture. */
-  if (effects->taa_current_sample == 1) {
-    GPU_framebuffer_bind(fbl->ssr_accum_fb);
-    GPU_framebuffer_clear_color(fbl->ssr_accum_fb, clear);
-  }
 }
 
 void EEVEE_reflection_output_accumulate(EEVEE_ViewLayerData *UNUSED(sldata), EEVEE_Data *vedata)
@@ -347,9 +337,17 @@ void EEVEE_reflection_output_accumulate(EEVEE_ViewLayerData *UNUSED(sldata), EEV
   EEVEE_FramebufferList *fbl = vedata->fbl;
   EEVEE_PassList *psl = vedata->psl;
   EEVEE_StorageList *stl = vedata->stl;
+  EEVEE_EffectsInfo *effects = vedata->stl->effects;
 
   if (stl->g_data->valid_double_buffer) {
     GPU_framebuffer_bind(fbl->ssr_accum_fb); /* TODO separate buffer */
+
+    /* Clear texture. */
+    if (effects->taa_current_sample == 1) {
+      const float clear[4] = {0.0f, 0.0f, 0.0f, 0.0f};
+      GPU_framebuffer_clear_color(fbl->ssr_accum_fb, clear);
+    }
+
     DRW_draw_pass(psl->ssr_resolve);
     DRW_draw_pass(psl->ssgi_resolve);
     //DRW_draw_pass(psl->ssgi_filter);
